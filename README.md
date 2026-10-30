@@ -1,1 +1,12 @@
 # nat20
+
+fastapi
+uvicorn[standard]
+sqlalchemy>=2.0
+alembic
+pydantic-settings
+python-jose[cryptography]
+passlib[bcrypt]
+python-multipart
+pytest
+httpx
