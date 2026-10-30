@@ -43,3 +43,25 @@ def skill_bonus(abilities: dict, skill: str, level: int, proficient: bool = Fals
 def passive_perception(abilities: dict, level: int, proficient: bool = False) -> int:
     # passive perception: 10 + skill bonus (perception)
     return 10 + skill_bonus(abilities, "perception", level, proficient)
+
+def saving_throw_bonus(abilities: dict, ability: str, level: int, proficient: bool = False) -> int:
+    bonus = modifier(abilities[ability])
+    if proficient:
+        bonus += proficiency_bonus(level)
+    return bonus
+
+def derived_stats(abilities: dict, level: int, skill_profs=(), save_profs=()) -> dict:
+    return {
+        "profiency_bonus": proficiency_bonus(level),
+        "modifiers": {a: modifier(abilities[a]) for a in ABILITIES},
+        "saving_throws": {
+            a: saving_throw_bonus(abilities, a, level, a in save_profs)
+            for a in ABILITIES
+        },
+        "skills": {
+            s: skill_bonus(abilities, s, level, s in skill_profs)
+            for s in SKILLS
+        },
+        "initiative": initiative(abilities),
+        "passivel_perception": passive_perception(abilities, level, "perception" in skill_profs),
+    }
