@@ -7,10 +7,17 @@ if settings.database_url.startswith("sqlite"):
 else:
     connect_args = {}
 
+# connect database with .env URL
 engine = create_engine(settings.database_url, connect_args=connect_args)
+
+SessionLocal = sessionmaker (bind=engine, autoflush=False)
 
 class Base(DeclarativeBase):
      pass
 
 def get_db():
-     pass
+    db = SessionLocal()
+    try:
+          yield db
+    finally: 
+          db.close()
