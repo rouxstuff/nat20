@@ -1,0 +1,4 @@
+-- code --
+200 - it works
+404 - not found
+422 - data type invalid
